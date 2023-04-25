@@ -47,13 +47,20 @@ class FilmAPITest {
     @Test
     fun `adding a Film to a populated list adds to ArrayList`(){
         val newFilm = Film("Interstellar", 4, "Sci-Fi", false)
+        assertEquals(5, populatedFilms!!.numberOfFilms())
         assertTrue(populatedFilms!!.add(newFilm))
+        assertEquals(6, populatedFilms!!.numberOfFilms())
+        assertEquals(newFilm, populatedFilms!!.findFilm(populatedFilms!!.numberOfFilms() - 1))
     }
 
     @Test
     fun `adding a Film to an empty list adds to ArrayList`(){
         val newFilm = Film("The Matrix", 5, "Sci-Fi", false)
+        assertEquals(0, emptyFilms!!.numberOfFilms())
         assertTrue(emptyFilms!!.add(newFilm))
+        assertEquals(1, emptyFilms!!.numberOfFilms())
+        assertEquals(newFilm, emptyFilms!!.findFilm(emptyFilms!!.numberOfFilms() - 1))
     }
+
 }
 
