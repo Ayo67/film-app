@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class FilmAPITest {
 
@@ -60,6 +61,23 @@ class FilmAPITest {
         assertTrue(emptyFilms!!.add(newFilm))
         assertEquals(1, emptyFilms!!.numberOfFilms())
         assertEquals(newFilm, emptyFilms!!.findFilm(emptyFilms!!.numberOfFilms() - 1))
+    }
+
+    @Test
+    fun `listAllFilms returns No Films Stored message when ArrayList is empty`() {
+        assertEquals(0, emptyFilms!!.numberOfFilms())
+        assertTrue(emptyFilms!!.listAllFilms().lowercase().contains("no films"))
+    }
+
+    @Test
+    fun `listAllFilms returns Films when ArrayList has films stored`() {
+        assertEquals(5, populatedFilms!!.numberOfFilms())
+        val filmsString = populatedFilms!!.listAllFilms().lowercase()
+        assertFalse(filmsString.contains("interstellar"))
+        //assertTrue(filmsString.contains("the matrix"))
+        //assertTrue(filmsString.contains("the dark knight"))
+        //assertTrue(filmsString.contains("inception"))
+        //assertTrue(filmsString.contains("godfather"))
     }
 
 }
