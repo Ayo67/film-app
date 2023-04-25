@@ -21,6 +21,15 @@ class FilmAPI {
         }
     }
 
+    fun numberOfFilms() = films.size
 
+    fun findFilm(index: Int): Film? {
+        return if (isValidListIndex(index, films)) {
+            films[index]
+        } else null
+    }
 
+    // utility method to determine if an index is valid in a list.
+    fun isValidListIndex(index: Int, list: List<*>) = index >= 0 && index < list.size
 }
+
