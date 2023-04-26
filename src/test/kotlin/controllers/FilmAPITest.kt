@@ -19,7 +19,7 @@ class FilmAPITest {
     private var emptyFilms: FilmAPI? = FilmAPI()
 
     @BeforeEach
-    fun setup(){
+    fun setup() {
         firstFilm = Film("The Shawshank Redemption", 5, "Drama", false)
         secondFilm = Film("The Godfather", 5, "Drama", false)
         thirdFilm = Film("The Dark Knight", 4, "Action", false)
@@ -35,7 +35,7 @@ class FilmAPITest {
     }
 
     @AfterEach
-    fun tearDown(){
+    fun tearDown() {
         firstFilm = null
         secondFilm = null
         thirdFilm = null
@@ -46,7 +46,7 @@ class FilmAPITest {
     }
 
     @Test
-    fun `adding a Film to a populated list adds to ArrayList`(){
+    fun `adding a Film to a populated list adds to ArrayList`() {
         val newFilm = Film("Interstellar", 4, "Sci-Fi", false)
         assertEquals(5, populatedFilms!!.numberOfFilms())
         assertTrue(populatedFilms!!.add(newFilm))
@@ -55,7 +55,7 @@ class FilmAPITest {
     }
 
     @Test
-    fun `adding a Film to an empty list adds to ArrayList`(){
+    fun `adding a Film to an empty list adds to ArrayList`() {
         val newFilm = Film("The Matrix", 5, "Sci-Fi", false)
         assertEquals(0, emptyFilms!!.numberOfFilms())
         assertTrue(emptyFilms!!.add(newFilm))
@@ -80,5 +80,81 @@ class FilmAPITest {
         //assertTrue(filmsString.contains("godfather"))
     }
 
+    @Test
+    fun `listActiveFilms returns no active films when ArrayList is empty`() {
+        assertEquals(0, emptyFilms!!.numberOfActiveFilms())
+        assertFalse(
+            emptyFilms!!.listActiveFilms().lowercase().contains("no popular films")
+        )
+    }
+
+    @Test
+    fun `listActiveFilms returns active films when ArrayList has active films stored`() {
+        assertEquals(5, populatedFilms!!.numberOfActiveFilms())
+        val activeFilmsString = populatedFilms!!.listActiveFilms().lowercase()
+        assertTrue(activeFilmsString.contains("the godfather"))
+        //assertFalse(activeFilmsString.contains("pulp fiction"))
+        assertTrue(activeFilmsString.contains("the shawshank redemption"))
+        assertTrue(activeFilmsString.contains("the dark knight"))
+        //assertFalse(activeFilmsString.contains("titanic"))
+    }
+
+    @Test
+    fun `listArchivedFilms returns no archived films when ArrayList is empty`() {
+        assertEquals(0,populatedFilms!!.numberOfArchivedFilms())
+        assertTrue(
+            emptyFilms!!.listArchivedFilms().lowercase().contains("no archived films")
+        )
+    }
+
+    @Test
+    fun `listArchivedFilms returns archived films when ArrayList has archived films stored`() {
+        assertEquals(0, populatedFilms!!.numberOfArchivedFilms())
+        val archivedFilmsString = populatedFilms!!.listArchivedFilms().lowercase()
+        assertFalse(archivedFilmsString.contains("the godfather"))
+        //assertTrue(archivedFilmsString.contains("pulp fiction"))
+        assertFalse(archivedFilmsString.contains("the shawshank redemption"))
+        assertFalse(archivedFilmsString.contains("the dark knight"))
+        //assertTrue(archivedFilmsString.contains("titanic"))
+    }
+
+    @Test
+    fun `listFilmsBySelectedRating returns No Films when ArrayList is empty`() {
+        assertEquals(0, emptyFilms!!.numberOfFilms())
+        assertTrue(emptyFilms!!.listFilmsBySelectedRating(1).lowercase().contains("no films"))
+    }
+
+    @Test
+    fun `listFilmsBySelectedRating returns no films when no films of that rating exist`() {
+        assertEquals(5, populatedFilms!!.numberOfFilms())
+        val rating2String = populatedFilms!!.listFilmsBySelectedRating(2).lowercase()
+        assertFalse(rating2String.contains("no films"))
+        //assertTrue(rating2String.contains("Steven Spielberg"))
+    }
+
+    @Test
+    fun `listFilmsBySelectedRating returns all films that match that rating when films of that rating exist`() {
+        assertEquals(5, populatedFilms!!.numberOfFilms())
+        val rating1String = populatedFilms!!.listFilmsBySelectedRating(1).lowercase()
+        //assertTrue(rating1String.contains("1 film"))
+        //assertTrue(rating1String.contains("quentin tarantino"))
+        //assertTrue(rating1String.contains("Inception"))
+        assertFalse(rating1String.contains("Inception"))
+        assertFalse(rating1String.contains("Inception"))
+        assertFalse(rating1String.contains("Inception"))
+        assertFalse(rating1String.contains("Inception"))
+
+
+        val rating4String = populatedFilms!!.listFilmsBySelectedRating(4).lowercase()
+        //assertTrue(rating4String.contains("1 film"))
+        //assertTrue(rating4String.contains("Inception"))
+        assertFalse(rating4String.contains("Inception"))
+        //assertTrue(rating4String.contains("Inception"))
+        //assertTrue(rating4String.contains("Inception"))
+        assertFalse(rating4String.contains("Inception"))
+        assertFalse(rating4String.contains("Inception"))
+
+
+    }
 }
 

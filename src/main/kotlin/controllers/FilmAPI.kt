@@ -98,12 +98,12 @@ class FilmAPI {
             if (listOfFilms.equals("")) {
                 "No notes with priority: $rating"
             } else {
-                "${numberOfFilmsByPriority(rating)} notes with priority $rating: $listOfFilms"
+                "${numberOfFilmsByRating(rating)} notes with priority $rating: $listOfFilms"
             }
         }
     }
 
-    fun numberOfFilmsByPriority(rating: Int): Int {
+    fun numberOfFilmsByRating(rating: Int): Int {
         //return films.stream().filter { p: Film -> p.filmRating == rating }.count().toInt()
         var counter = 0
         for (film in films) {
