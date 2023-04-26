@@ -114,6 +114,13 @@ class FilmAPI {
         return counter
     }
 
+    fun deleteFilm(indexToDelete: Int): Film? {
+        return if (isValidListIndex(indexToDelete, films)) {
+            films.removeAt(indexToDelete)
+        } else null
+    }
+
+
 
 }
 
