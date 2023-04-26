@@ -62,11 +62,25 @@ class FilmAPI {
 
 
     fun numberOfArchivedFilms(): Int {
-        //helper method to determine how many archived notes there are
+        //return films.stream().filter { obj: Film -> obj.isFilmArchived }.count().toInt()
+        var counter = 0
+        for (film in films) {
+            if (film.isFilmArchived) {
+                counter++
+            }
+        }
+        return counter
     }
 
-    fun numberOfActiveFilms(): Int {
-        //helper method to determine how many active notes there are
+    fun numberOfActiveFilms():  Int {
+        //return notes.stream().filter { p: Note -> !p.isNoteArchived }.count().toInt()
+        var counter = 0
+        for (film in films) {
+            if (!film.isFilmArchived) {
+                counter++
+            }
+        }
+        return counter
     }
 
 
