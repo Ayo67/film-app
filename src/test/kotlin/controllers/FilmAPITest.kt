@@ -177,5 +177,31 @@ class FilmAPITest {
         }
     }
 
+    @Nested
+    inner class UpdateFilms {
+        @Test
+        fun `updating a film that does not exist returns false`(){
+            assertFalse(populatedFilms!!.updateFilm(6, Film("Updating Film", 2, "Work", false)))
+            assertFalse(populatedFilms!!.updateFilm(-1, Film("Updating Film", 2, "Work", false)))
+            assertFalse(emptyFilms!!.updateFilm(0, Film("Updating Film", 2, "Work", false)))
+        }
+
+        @Test
+        fun `updating a note that exists returns true and updates`() {
+            //check film 5 exists and check the contents
+            //assertEquals(swim, populatedFilms!!.findNote(4))
+            assertEquals("Inception", populatedFilms!!.findFilm(4)!!.filmTitle)
+            assertEquals(3, populatedFilms!!.findFilm(4)!!.filmRating)
+            assertEquals("Sci-Fi", populatedFilms!!.findFilm(4)!!.filmGenre)
+
+            //update note 5 with new information and ensure contents updated successfully
+            assertTrue(populatedFilms!!.updateFilm(4, Film("Updating Film", 2, "College", false)))
+            assertEquals("Updating Film", populatedFilms!!.findFilm(4)!!.filmTitle)
+            assertEquals(2, populatedFilms!!.findFilm(4)!!.filmRating)
+            assertEquals("College", populatedFilms!!.findFilm(4)!!.filmGenre)
+        }
+    }
+
+
 }
 

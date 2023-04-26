@@ -1,7 +1,7 @@
 package models
 
-data class Film(val filmTitle: String,
-                val filmRating: Int,
-                val filmGenre: String,
-                val isFilmArchived :Boolean){
+data class Film(var filmTitle: String,
+                var filmRating: Int,
+                var filmGenre: String,
+                var isFilmArchived :Boolean){
 }
