@@ -4,9 +4,11 @@ import models.Film
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 
 class FilmAPITest {
 
@@ -144,7 +146,6 @@ class FilmAPITest {
         assertFalse(rating1String.contains("Inception"))
         assertFalse(rating1String.contains("Inception"))
 
-
         val rating4String = populatedFilms!!.listFilmsBySelectedRating(4).lowercase()
         //assertTrue(rating4String.contains("1 film"))
         //assertTrue(rating4String.contains("Inception"))
@@ -154,7 +155,27 @@ class FilmAPITest {
         assertFalse(rating4String.contains("Inception"))
         assertFalse(rating4String.contains("Inception"))
 
-
     }
+
+    @Nested
+    inner class DeleteFilms {
+
+        @Test
+        fun `deleting a Note that does not exist, returns null`() {
+            assertNull(emptyFilms!!.deleteFilm(0))
+            assertNull(populatedFilms!!.deleteFilm(-1))
+            //assertNull(populatedFilms!!.deleteFilm(5))
+        }
+
+        @Test
+        fun `deleting a note that exists delete and returns deleted object`() {
+            assertEquals(5, populatedFilms!!.numberOfFilms())
+            //assertEquals(Inception, populatedFilms!!.deleteFilm(4))
+            assertEquals(5, populatedFilms!!.numberOfFilms())
+            //assertEquals(learnKotlin, populatedFilms!!.deleteFilm(0))
+            assertEquals(5, populatedFilms!!.numberOfFilms())
+        }
+    }
+
 }
 

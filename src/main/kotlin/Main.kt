@@ -76,9 +76,21 @@ fun updateFilm(){
 }
 
 fun deleteFilm(){
-    logger.info { "addNote() function invoked" }
-
+    //logger.info { "deleteFilm() function invoked" }
+    listFilms()
+    if (filmAPI.numberOfFilms() > 0) {
+        //only ask the user to choose the film to delete if films exist
+        val indexToDelete = readNextInt("Enter the index of the film to delete: ")
+        //pass the index of the film to FilmAPI for deleting and check for success.
+        val filmToDelete = filmAPI.deleteFilm(indexToDelete)
+        if (filmToDelete != null) {
+            println("Delete Successful! Deleted film: ${filmToDelete.filmTitle}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
+
 
 fun exitApp(){
     println("Exiting...bye")
