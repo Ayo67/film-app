@@ -1,6 +1,7 @@
 import controllers.FilmAPI
 import models.Film
 import mu.KotlinLogging
+import persistence.JSONSerializer
 import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
@@ -10,7 +11,8 @@ import java.lang.System.exit
 
 
 private val logger = KotlinLogging.logger {}
-private val filmAPI = FilmAPI(XMLSerializer(File("films.xml")))
+//private val filmAPI = FilmAPI(XMLSerializer(File("films.xml")))
+private val filmAPI = FilmAPI(JSONSerializer(File("notes.json")))
 
 
 
