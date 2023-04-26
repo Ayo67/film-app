@@ -1,14 +1,17 @@
 import controllers.FilmAPI
 import models.Film
 import mu.KotlinLogging
+import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 import java.lang.System.exit
 
 
 private val logger = KotlinLogging.logger {}
-private val filmAPI = FilmAPI()
+private val filmAPI = FilmAPI(XMLSerializer(File("notes.xml")))
+
 
 
 fun main(args: Array<String>) {
@@ -26,6 +29,8 @@ fun mainMenu() : Int {
          > |   3) Update a Film             |
          > |   4) Delete a Film             |
          > ----------------------------------
+         > |   20) Save Film                |
+         > |   21) Load Film                |
          > |   0) Exit                      |
          > ----------------------------------
          > ==>> """.trimMargin(">"))
@@ -42,6 +47,8 @@ fun runMenu() {
             2  -> listFilms()
             3  -> updateFilm()
             4  -> deleteFilm()
+            20  -> save()
+            21  -> load()
             0  -> exitApp()
             else -> println("Invalid option entered: ${option}")
 
@@ -108,6 +115,23 @@ fun deleteFilm(){
         }
     }
 }
+
+fun save() {
+    try {
+        filmAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        filmAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+
 
 
 fun exitApp(){

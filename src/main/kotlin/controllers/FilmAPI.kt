@@ -1,12 +1,27 @@
 package controllers
 
 import models.Film
+import persistence.Serializer
 
-class FilmAPI {
+class FilmAPI(serializerType: Serializer){
+
+    private var serializer: Serializer = serializerType
     private var films = ArrayList<Film>()
 
-    fun add(note: Film): Boolean {
-        return films.add(note)
+
+
+    @Throws(Exception::class)
+    fun load() {
+        films = serializer.read() as ArrayList<Film>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(films)
+    }
+
+    fun add(film: Film): Boolean {
+        return films.add(film)
     }
 
     fun listAllFilms(): String {
@@ -30,13 +45,6 @@ class FilmAPI {
     }
 
     // utility method to determine if an index is valid in a list.
-    fun isValidListIndex(index: Int, list: List<*>) = index >= 0 && index < list.size
-
-    fun isValidIndex(index: Int) :Boolean{
-        return isValidListIndex(index, films);
-    }
-
-
     fun listActiveFilms(): String {
         return if (numberOfActiveFilms() == 0) {
             "No active films stored"
@@ -56,9 +64,9 @@ class FilmAPI {
             "No archived films stored"
         } else {
             var listOfArchivedFilms = ""
-            for (note in films) {
-                if (note.isFilmArchived) {
-                    listOfArchivedFilms += "${films.indexOf(note)}: $note \n"
+            for (film in films) {
+                if (film.isFilmArchived) {
+                    listOfArchivedFilms += "${films.indexOf(film)}: $film \n"
                 }
             }
             listOfArchivedFilms
@@ -139,6 +147,14 @@ class FilmAPI {
 
         //if the note was not found, return false, indicating that the update was not successful
         return false
+    }
+
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, films);
+    }
+
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
     }
 
 
