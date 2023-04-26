@@ -32,6 +32,11 @@ class FilmAPI {
     // utility method to determine if an index is valid in a list.
     fun isValidListIndex(index: Int, list: List<*>) = index >= 0 && index < list.size
 
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, films);
+    }
+
+
     fun listActiveFilms(): String {
         return if (numberOfActiveFilms() == 0) {
             "No active films stored"
@@ -118,6 +123,22 @@ class FilmAPI {
         return if (isValidListIndex(indexToDelete, films)) {
             films.removeAt(indexToDelete)
         } else null
+    }
+
+    fun updateFilm(indexToUpdate: Int, film: Film?): Boolean {
+        //find the note object by the index number
+        val foundFilm = findFilm(indexToUpdate)
+
+        //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
+        if ((foundFilm != null) && (film != null)) {
+            foundFilm.filmTitle = film.filmTitle
+            foundFilm.filmRating = film.filmRating
+            foundFilm.filmGenre = film.filmGenre
+            return true
+        }
+
+        //if the note was not found, return false, indicating that the update was not successful
+        return false
     }
 
 

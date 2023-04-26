@@ -69,11 +69,29 @@ fun listFilms() {
     println(filmAPI.listAllFilms())
 }
 
+fun updateFilm() {
+    //logger.info { "updateFilm() function invoked" }
+    listFilms()
+    if (filmAPI.numberOfFilms() > 0) {
+        //only ask the user to choose the film if film exist
+        val indexToUpdate = readNextInt("Enter the index of the film to update: ")
+        if (filmAPI.isValidIndex(indexToUpdate)) {
+            val filmTitle = readNextLine("Enter a title for the film: ")
+            val filmRating = readNextInt("Enter a Rating (1-low, 2, 3, 4, 5-high): ")
+            val filmGenre = readNextLine("Enter a genre for the film: ")
 
-fun updateFilm(){
-    logger.info { "addNote() function invoked" }
-
+            //pass the index of the film and the new film details to FilmAPI for updating and check for success.
+            if (filmAPI.updateFilm(indexToUpdate, Film(filmTitle, filmRating, filmGenre, false))){
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no films for this index number")
+        }
+    }
 }
+
 
 fun deleteFilm(){
     //logger.info { "deleteFilm() function invoked" }
