@@ -1,0 +1,10 @@
+<object-stream>
+  <list>
+    <models.Film>
+      <filmTitle>multi</filmTitle>
+      <filmRating>4</filmRating>
+      <filmGenre>drama</filmGenre>
+      <isFilmArchived>false</isFilmArchived>
+    </models.Film>
+  </list>
+</object-stream>
