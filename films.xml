@@ -1,0 +1,22 @@
+<object-stream>
+  <list>
+    <models.Film>
+      <filmTitle>The Shawshank Redemption</filmTitle>
+      <filmRating>5</filmRating>
+      <filmGenre>Drama</filmGenre>
+      <isFilmArchived>false</isFilmArchived>
+    </models.Film>
+    <models.Film>
+      <filmTitle>The Godfather</filmTitle>
+      <filmRating>5</filmRating>
+      <filmGenre>Drama</filmGenre>
+      <isFilmArchived>false</isFilmArchived>
+    </models.Film>
+    <models.Film>
+      <filmTitle>The Dark Knight</filmTitle>
+      <filmRating>4</filmRating>
+      <filmGenre>Action</filmGenre>
+      <isFilmArchived>false</isFilmArchived>
+    </models.Film>
+  </list>
+</object-stream>
