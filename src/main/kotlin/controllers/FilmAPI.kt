@@ -32,6 +32,43 @@ class FilmAPI {
     // utility method to determine if an index is valid in a list.
     fun isValidListIndex(index: Int, list: List<*>) = index >= 0 && index < list.size
 
+    fun listActiveFilms(): String {
+        return if (numberOfActiveFilms() == 0) {
+            "No active films stored"
+        } else {
+            var listOfActiveFilms = ""
+            for (note in films) {
+                if (!note.isFilmArchived) {
+                    listOfActiveFilms += "${films.indexOf(note)}: $note \n"
+                }
+            }
+            listOfActiveFilms
+        }
+    }
+
+    fun listArchivedFilms(): String {
+        return if (numberOfArchivedFilms() == 0) {
+            "No archived films stored"
+        } else {
+            var listOfArchivedFilms = ""
+            for (note in films) {
+                if (note.isFilmArchived) {
+                    listOfArchivedFilms += "${films.indexOf(note)}: $note \n"
+                }
+            }
+            listOfArchivedFilms
+        }
+    }
+
+
+    fun numberOfArchivedFilms(): Int {
+        //helper method to determine how many archived notes there are
+    }
+
+    fun numberOfActiveFilms(): Int {
+        //helper method to determine how many active notes there are
+    }
+
 
 }
 
