@@ -73,10 +73,41 @@ class FilmAPI {
     }
 
     fun numberOfActiveFilms():  Int {
-        //return notes.stream().filter { p: Note -> !p.isNoteArchived }.count().toInt()
+        //return films.stream().filter { p: Film -> !p.isFilmArchived }.count().toInt()
         var counter = 0
         for (film in films) {
             if (!film.isFilmArchived) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+    fun listFilmsBySelectedRating(rating: Int): String {
+        return if (films.isEmpty()) {
+            "No films stored"
+        } else {
+            var listOfFilms = ""
+            for (i in films.indices) {
+                if (films[i].filmRating == rating) {
+                    listOfFilms +=
+                        """$i: ${films[i]}
+                        """.trimIndent()
+                }
+            }
+            if (listOfFilms.equals("")) {
+                "No notes with priority: $rating"
+            } else {
+                "${numberOfFilmsByRating(rating)} notes with priority $rating: $listOfFilms"
+            }
+        }
+    }
+
+    fun numberOfFilmsByRating(rating: Int): Int {
+        //return films.stream().filter { p: Film -> p.filmRating == rating }.count().toInt()
+        var counter = 0
+        for (film in films) {
+            if (film.filmRating == rating) {
                 counter++
             }
         }
