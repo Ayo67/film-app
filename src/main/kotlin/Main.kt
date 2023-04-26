@@ -12,7 +12,7 @@ import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
 //private val filmAPI = FilmAPI(XMLSerializer(File("films.xml")))
-private val filmAPI = FilmAPI(JSONSerializer(File("notes.json")))
+private val filmAPI = FilmAPI(JSONSerializer(File("films.json")))
 
 
 
