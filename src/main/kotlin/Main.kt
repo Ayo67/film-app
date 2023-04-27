@@ -156,6 +156,25 @@ fun load() {
     }
 }
 
+fun listActiveFilms() {
+    println(filmAPI.listActiveFilms())
+}
+
+fun archiveFilm() {
+    listActiveFilms()
+    if (filmAPI.numberOfActiveFilms() > 0) {
+        //only ask the user to choose the film to archive if active film exist
+        val indexToArchive = readNextInt("Enter the index of the film to archive: ")
+        //pass the index of the note to NoteAPI for archiving and check for success.
+        if (filmAPI.archiveFilm(indexToArchive)) {
+            println("Archive Successful!")
+        } else {
+            println("Archive NOT Successful")
+        }
+    }
+}
+
+
 
 
 fun exitApp(){
