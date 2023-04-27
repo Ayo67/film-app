@@ -23,7 +23,7 @@ dependencies {
     implementation("com.thoughtworks.xstream:xstream:1.4.18")
     implementation("org.codehaus.jettison:jettison:1.4.1")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.0"
 }
 
 tasks.test {
