@@ -24,15 +24,11 @@ class FilmAPI(serializerType: Serializer){
         return films.add(film)
     }
 
-    fun listAllFilms(): String {
-        if (films.isEmpty()) {
-            return "No films stored"
-        } else {
-            return films.joinToString{ film ->
-                film.toString()
-            }
-        }
-    }
+     fun listAllFilms(): String =
+        if  (films.isEmpty()) "No films stored"
+        else films.joinToString (separator = "\n") { film ->
+            films.indexOf(film).toString() + ": " + film.toString() }
+
 
     fun numberOfFilms() = films.size
 
