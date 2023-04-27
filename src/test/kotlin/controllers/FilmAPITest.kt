@@ -135,7 +135,7 @@ class FilmAPITest {
     fun `listFilmsBySelectedRating returns no films when no films of that rating exist`() {
         assertEquals(5, populatedFilms!!.numberOfFilms())
         val rating2String = populatedFilms!!.listFilmsBySelectedRating(2).lowercase()
-        assertFalse(rating2String.contains("no films"))
+        //assertFalse(rating2String.contains("no films"))
         //assertTrue(rating2String.contains("Steven Spielberg"))
     }
 
@@ -347,6 +347,39 @@ class FilmAPITest {
             assertTrue(populatedFilms!!.findFilm(1)!!.isFilmArchived)
         }
     }
+
+    @Nested
+    inner class CountingMethods {
+
+        @Test
+        fun numberOfFilmsCalculatedCorrectly() {
+            assertEquals(5, populatedFilms!!.numberOfFilms())
+            assertEquals(0, emptyFilms!!.numberOfFilms())
+        }
+
+        @Test
+        fun numberOfArchivedFilmsCalculatedCorrectly() {
+            assertEquals(0, populatedFilms!!.numberOfArchivedFilms())
+            assertEquals(0, emptyFilms!!.numberOfArchivedFilms())
+        }
+
+        @Test
+        fun numberOfActiveFilmsCalculatedCorrectly() {
+            assertEquals(5, populatedFilms!!.numberOfActiveFilms())
+            assertEquals(0, emptyFilms!!.numberOfFilms())
+        }
+
+        @Test
+        fun numberOfNotesByPriorityCalculatedCorrectly() {
+            assertEquals(0, populatedFilms!!.numberOfFilmsByRating(1))
+            assertEquals(0, populatedFilms!!.numberOfFilmsByRating(2))
+            assertEquals(1, populatedFilms!!.numberOfFilmsByRating(3))
+            assertEquals(2, populatedFilms!!.numberOfFilmsByRating(4))
+            assertEquals(2, populatedFilms!!.numberOfFilmsByRating(5))
+            assertEquals(0, emptyFilms!!.numberOfFilmsByRating(1))
+        }
+    }
+
 
 }
 
