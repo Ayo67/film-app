@@ -324,6 +324,30 @@ class FilmAPITest {
         assertEquals(storingFilms.findFilm(1), loadedFilms.findFilm(1))
         assertEquals(storingFilms.findFilm(2), loadedFilms.findFilm(2))
     }
+
+    @Nested
+    inner class ArchiveFilms {
+        @Test
+        fun `archiving a note that does not exist returns false`(){
+            assertFalse(populatedFilms!!.archiveFilm(6))
+            assertFalse(populatedFilms!!.archiveFilm(-1))
+            assertFalse(emptyFilms!!.archiveFilm(0))
+        }
+
+        @Test
+        fun `archiving an already archived note returns false`(){
+            assertTrue(populatedFilms!!.findFilm(2)!!.isFilmArchived)
+            assertFalse(populatedFilms!!.archiveFilm(2))
+        }
+
+        @Test
+        fun `archiving an active note that exists returns true and archives`() {
+            assertFalse(populatedFilms!!.findFilm(1)!!.isFilmArchived)
+            assertTrue(populatedFilms!!.archiveFilm(1))
+            assertTrue(populatedFilms!!.findFilm(1)!!.isFilmArchived)
+        }
+    }
+
 }
 
 
