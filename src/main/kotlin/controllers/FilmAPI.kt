@@ -121,6 +121,17 @@ class FilmAPI(serializerType: Serializer){
         return false
     }
 
+    fun searchByTitle(title: String): String {
+        val matchingFilms = films.filter { it.filmTitle == title }
+        return if (matchingFilms.isNotEmpty()) {
+            matchingFilms.joinToString(separator = "\n") { film ->
+                "${films.indexOf(film)}: $film"
+            }
+        } else {
+            "No films found with title: $title"
+        }
+    }
+
 
 }
 
