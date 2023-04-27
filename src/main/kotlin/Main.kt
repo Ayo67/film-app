@@ -32,6 +32,7 @@ fun mainMenu() : Int {
          > |   3) Update a Film             |
          > |   4) Delete a Film             |
          > |   5) Archive a Film            |
+         > |   6) Search a Film  by title   |
          > ----------------------------------
          > |   20) Save Film                |
          > |   21) Load Film                |
@@ -52,6 +53,7 @@ fun runMenu() {
             3  -> updateFilm()
             4  -> deleteFilm()
             5 -> archiveFilm()
+            6 -> searchByTitle()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -76,7 +78,6 @@ fun addFilm() {
     }
 }
 
-
 fun listFilms() {
     if (filmAPI.numberOfFilms() > 0) {
         val option = readNextInt(
@@ -98,7 +99,6 @@ fun listFilms() {
         println("Option Invalid - No films stored");
     }
 }
-
 
 fun updateFilm() {
     //logger.info { "updateFilm() function invoked" }
@@ -166,11 +166,10 @@ fun archiveFilm() {
         //only ask the user to choose the film to archive if active film exist
         val indexToArchive = readNextInt("Enter the index of the film to archive: ")
         //pass the index of the note to NoteAPI for archiving and check for success.
-        if (filmAPI.archiveFilm(indexToArchive)) {
+        if (filmAPI.archiveFilm(indexToArchive))
             println("Archive Successful!")
-        } else {
+        else
             println("Archive NOT Successful")
-        }
     }
 }
 
@@ -182,7 +181,14 @@ fun listArchivedFilms() {
     println(filmAPI.listArchivedFilms())
 }
 
-
+fun searchByTitle() {
+    val searchName = readNextLine("Enter the title you wish to search by: ")
+    val searchResults = filmAPI.searchByTitle(searchName)
+    if (searchResults.isEmpty())
+        println("No films with that title found")
+    else
+        println(searchResults)
+}
 
 
 

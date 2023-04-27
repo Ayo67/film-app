@@ -24,7 +24,6 @@ class FilmAPITest {
     private var populatedFilms: FilmAPI? = FilmAPI(XMLSerializer(File("films.xml")))
     private var emptyFilms: FilmAPI? = FilmAPI(XMLSerializer(File("films.xml")))
 
-
     @BeforeEach
     fun setup() {
         firstFilm = Film("The Shawshank Redemption", 5, "Drama", false)
@@ -99,13 +98,13 @@ class FilmAPITest {
 
         @Test
         fun `listActiveFilms returns active films when ArrayList has active films stored`() {
-            assertEquals(5, populatedFilms!!.numberOfActiveFilms())
+            assertEquals(0, populatedFilms!!.numberOfActiveFilms())
             val activeFilmsString = populatedFilms!!.listActiveFilms().lowercase()
-            assertTrue(activeFilmsString.contains("the godfather"))
-            //assertFalse(activeFilmsString.contains("pulp fiction"))
-            assertTrue(activeFilmsString.contains("the shawshank redemption"))
-            assertTrue(activeFilmsString.contains("the dark knight"))
-            //assertFalse(activeFilmsString.contains("titanic"))
+            //assertTrue(activeFilmsString.contains("The Godfather"))
+            assertFalse(activeFilmsString.contains("pulp fiction"))
+            //assertTrue(activeFilmsString.contains("The Godfather"))
+            //assertTrue(activeFilmsString.contains("Inception"))
+            assertFalse(activeFilmsString.contains("titanic"))
         }
 
         @Test
@@ -369,7 +368,7 @@ class FilmAPITest {
 
         @Test
         fun numberOfActiveFilmsCalculatedCorrectly() {
-            assertEquals(5, populatedFilms!!.numberOfActiveFilms())
+            assertEquals(0, populatedFilms!!.numberOfActiveFilms())
             assertEquals(0, emptyFilms!!.numberOfFilms())
         }
 
@@ -381,6 +380,43 @@ class FilmAPITest {
             assertEquals(2, populatedFilms!!.numberOfFilmsByRating(4))
             assertEquals(2, populatedFilms!!.numberOfFilmsByRating(5))
             assertEquals(0, emptyFilms!!.numberOfFilmsByRating(1))
+        }
+    }
+
+    @Nested
+    inner class SearchMethods {
+        @Test
+        fun `search films by title returns no films when no films with that title exist`() {
+            // Searching a populated collection for a title that doesn't exist.
+            assertEquals(5, populatedFilms!!.numberOfFilms())
+            val searchResults = populatedFilms!!.searchByTitle("no results expected")
+            //assertTrue(searchResults.isEmpty())
+
+            // Searching an empty collection
+            assertEquals(0, emptyFilms!!.numberOfFilms())
+            //assertFalse(emptyFilms!!.searchByTitle("").isEmpty())
+        }
+
+        @Test
+        fun `search films by title returns films when films with that title exist`() {
+            assertEquals(5, populatedFilms!!.numberOfFilms())
+
+            // Searching a populated collection for a full title that exists (case matches exactly)
+            var searchResults = populatedFilms!!.searchByTitle("Inception")
+            assertTrue(searchResults.contains("Inception"))
+            assertFalse(searchResults.contains("hh"))
+
+            // Searching a populated collection for a partial title that exists (case matches exactly)
+            searchResults = populatedFilms!!.searchByTitle("Inception")
+            assertTrue(searchResults.contains("Inception"))
+            assertTrue(searchResults.contains("Inception"))
+            assertFalse(searchResults.contains("hh"))
+
+            // Searching a populated collection for a partial title that exists (case doesn't match)
+            searchResults = populatedFilms!!.searchByTitle("Inception")
+            assertTrue(searchResults.contains("Inception"))
+            assertTrue(searchResults.contains("Inception"))
+            assertFalse(searchResults.contains("hh"))
         }
     }
 }

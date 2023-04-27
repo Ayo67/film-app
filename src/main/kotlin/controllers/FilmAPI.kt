@@ -8,6 +8,10 @@ class FilmAPI(serializerType: Serializer){
     private var serializer: Serializer = serializerType
     private var films = ArrayList<Film>()
 
+    private fun formatListString(notesToFormat : List<Film>) : String =
+        notesToFormat
+            .joinToString (separator = "\n") { film ->
+                films.indexOf(film).toString() + ": " + film.toString() }
 
 
     @Throws(Exception::class)
@@ -26,9 +30,7 @@ class FilmAPI(serializerType: Serializer){
 
      fun listAllFilms(): String =
         if  (films.isEmpty()) "No films stored"
-        else films.joinToString (separator = "\n") { film ->
-            films.indexOf(film).toString() + ": " + film.toString() }
-
+        else formatListString(films)
 
     fun numberOfFilms() = films.size
 
@@ -39,48 +41,28 @@ class FilmAPI(serializerType: Serializer){
     }
 
     // utility method to determine if an index is valid in a list.
-    fun listActiveFilms(): String {
-        return if (numberOfActiveFilms() == 0) {
-            "No active films stored"
-        } else
-            films.filterNot { it.isFilmArchived }
-                .mapIndexed { index, note -> "${index}: $note" }
-                .joinToString("\n")
-    }
+    fun listActiveFilms(): String =
+        if (numberOfActiveFilms() ==0) "No active films stored"
+    else formatListString(films.filter { film -> !film.isFilmArchived })
 
 
-    fun listArchivedFilms(): String {
-        val archivedFilms = films.filter { it.isFilmArchived }
-        return when {
-            archivedFilms.isEmpty() -> "No archived films stored"
-            else -> archivedFilms.joinToString(separator = "\n") { "${films.indexOf(it)}: $it" }
+    fun listArchivedFilms(): String =
+        if (numberOfArchivedFilms() ==0) "No archived films stored"
+        else formatListString(films.filter { film -> !film.isFilmArchived })
+
+
+    fun numberOfArchivedFilms(): Int  = films.count{ film: Film-> film.isFilmArchived }
+
+    fun numberOfActiveFilms():  Int = films.count{ film: Film-> film.isFilmArchived }
+
+    fun numberOfFilmsByRating(rating: Int): Int = films.count { p: Film -> p.filmRating == rating }
+    fun listFilmsBySelectedRating(rating: Int): String =
+        if (films.isEmpty()) "no films stored"
+    else{
+        val listOfFilms = formatListString(films.filter { film -> film.filmRating == rating })
+            if(listOfFilms.equals("")) "No films with rating: $rating"
+            else "${numberOfFilmsByRating(rating)} films with rating $rating: $listOfFilms"
         }
-    }
-
-    fun numberOfArchivedFilms(): Int {
-        return films.stream().filter { obj: Film -> obj.isFilmArchived }.count().toInt()
-
-    }
-    fun numberOfActiveFilms():  Int {
-        return films.stream()
-            .filter{film: Film -> !film.isFilmArchived}
-            .count()
-            .toInt()
-    }
-    fun listFilmsBySelectedRating(rating: Int): String {
-        return films.filter { it.filmRating == rating }
-            .takeIf { it.isNotEmpty() }
-            ?.joinToString(separator = "\n") { "${films.indexOf(it)}: $it" }
-            ?.let { "${numberOfFilmsByRating(rating)} films with rating $rating:\n$it" }
-            ?: "No films with rating $rating found"
-    }
-
-
-    fun numberOfFilmsByRating(rating: Int): Int {
-        return films.stream().filter { p: Film -> p.filmRating == rating }.count().toInt()
-    }
-
-
 
     fun deleteFilm(indexToDelete: Int): Film? {
         return if (isValidListIndex(indexToDelete, films)) {
@@ -121,6 +103,10 @@ class FilmAPI(serializerType: Serializer){
         return false
     }
 
+    fun searchByTitle(searchString:String) =
+        formatListString(
+            films.filter { film -> film.filmTitle.contains(searchString, ignoreCase = true) }
+        )
 
 }
 

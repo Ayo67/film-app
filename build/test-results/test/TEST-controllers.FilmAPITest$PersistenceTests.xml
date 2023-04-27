@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controllers.FilmAPITest$PersistenceTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-04-27T15:58:04" hostname="DESKTOP-BK2M168" time="0.046">
-  <properties/>
-  <testcase name="saving and loading an empty collection in XML doesn't crash app()" classname="controllers.FilmAPITest$PersistenceTests" time="0.035"/>
-  <testcase name="saving and loading an loaded collection in XML doesn't loose data()" classname="controllers.FilmAPITest$PersistenceTests" time="0.01"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
