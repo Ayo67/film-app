@@ -1,6 +1,7 @@
 import controllers.FilmAPI
 import models.Film
 import mu.KotlinLogging
+import persistence.CBORSerializer
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import utils.ScannerInput
@@ -12,8 +13,8 @@ import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
 //private val filmAPI = FilmAPI(XMLSerializer(File("films.xml")))
-private val filmAPI = FilmAPI(JSONSerializer(File("films.json")))
-
+//private val filmAPI = FilmAPI(JSONSerializer(File("films.json")))
+private val filmAPI = FilmAPI(CBORSerializer(File("films.cbor")))
 
 
 fun main(args: Array<String>) {
