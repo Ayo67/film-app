@@ -31,6 +31,7 @@ fun mainMenu() : Int {
          > |   2) List all Films            |
          > |   3) Update a Film             |
          > |   4) Delete a Film             |
+         > |   5) Archive a Film            |
          > ----------------------------------
          > |   20) Save Film                |
          > |   21) Load Film                |
@@ -50,6 +51,7 @@ fun runMenu() {
             2  -> listFilms()
             3  -> updateFilm()
             4  -> deleteFilm()
+            5 -> archiveFilm()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -87,9 +89,9 @@ fun listFilms() {
          > ==>> """.trimMargin(">"))
 
         when (option) {
-            1 -> listAllFilms();
-            2 -> listActiveFilms();
-            3 -> listArchivedFilms();
+            1 -> listAllFilms()
+            2 -> listActiveFilms()
+            3 -> listArchivedFilms()
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -153,6 +155,34 @@ fun load() {
         System.err.println("Error reading from file: $e")
     }
 }
+
+fun listActiveFilms() {
+    println(filmAPI.listActiveFilms())
+}
+
+fun archiveFilm() {
+    listActiveFilms()
+    if (filmAPI.numberOfActiveFilms() > 0) {
+        //only ask the user to choose the film to archive if active film exist
+        val indexToArchive = readNextInt("Enter the index of the film to archive: ")
+        //pass the index of the note to NoteAPI for archiving and check for success.
+        if (filmAPI.archiveFilm(indexToArchive)) {
+            println("Archive Successful!")
+        } else {
+            println("Archive NOT Successful")
+        }
+    }
+}
+
+fun listAllFilms() {
+    println(filmAPI.listAllFilms())
+}
+
+fun listArchivedFilms() {
+    println(filmAPI.listArchivedFilms())
+}
+
+
 
 
 

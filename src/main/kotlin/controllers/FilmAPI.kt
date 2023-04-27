@@ -157,6 +157,16 @@ class FilmAPI(serializerType: Serializer){
         return (index >= 0 && index < list.size)
     }
 
+    fun archiveFilm(indexToArchive: Int): Boolean {
+        if (isValidIndex(indexToArchive)) {
+            val filmtoArchive = films[indexToArchive]
+            if (!filmtoArchive.isFilmArchived) {
+                filmtoArchive.isFilmArchived = true
+                return true
+            }
+        }
+        return false
+    }
 
 
 }
