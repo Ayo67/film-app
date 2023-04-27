@@ -76,8 +76,27 @@ fun addFilm() {
 
 
 fun listFilms() {
-    println(filmAPI.listAllFilms())
+    if (filmAPI.numberOfFilms() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL films          |
+                  > |   2) View ACTIVE films       |
+                  > |   3) View ARCHIVED films     |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllFilms();
+            2 -> listActiveFilms();
+            3 -> listArchivedFilms();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - No films stored");
+    }
 }
+
 
 fun updateFilm() {
     //logger.info { "updateFilm() function invoked" }
