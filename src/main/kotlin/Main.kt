@@ -169,7 +169,7 @@ fun archiveFilm() {
         if (filmAPI.archiveFilm(indexToArchive)) {
             println("Archive Successful!")
         } else {
-            println("Archive NOT Successful")
+            println("Archive NOT Successfu")
         }
     }
 }
