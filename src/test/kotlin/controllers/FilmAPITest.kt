@@ -287,7 +287,43 @@ class FilmAPITest {
         assertEquals(storingFilms.findFilm(2), loadedFilms.findFilm(2))
     }
 
+    @Test
+    fun `saving and loading an empty collection in CBOR doesn't crash app`() {
+        // Saving an empty notes.CBOR file.
+        val storingFilms = FilmAPI(CBORSerializer(File("films.cbor")))
+        storingFilms.store()
 
+        //Loading the empty notes.cbor file into a new object
+        val loadedFilms = FilmAPI(CBORSerializer(File("films.cbor")))
+        loadedFilms.load()
+
+        //Comparing the source of the notes (storingNotes) with the CBOR loaded notes (loadedNotes)
+        assertEquals(0, storingFilms.numberOfFilms())
+        assertEquals(0, loadedFilms.numberOfFilms())
+        assertEquals(storingFilms.numberOfFilms(), loadedFilms.numberOfFilms())
+    }
+
+    @Test
+    fun `saving and loading an loaded collection in CBOR doesn't loose data`() {
+        // Storing 3 notes to the notes.CBOR file.
+        val storingFilms = FilmAPI(CBORSerializer(File("films.cbor")))
+        storingFilms.add(firstFilm!!)
+        storingFilms.add(secondFilm!!)
+        storingFilms.add(thirdFilm!!)
+        storingFilms.store()
+
+        //Loading notes.xml into a different collection
+        val loadedFilms = FilmAPI(CBORSerializer(File("films.cbor")))
+        loadedFilms.load()
+
+        //Comparing the source of the notes (storingNotes) with the XML loaded notes (loadedNotes)
+        assertEquals(3, storingFilms.numberOfFilms())
+        assertEquals(3, loadedFilms.numberOfFilms())
+        assertEquals(storingFilms.numberOfFilms(), loadedFilms.numberOfFilms())
+        assertEquals(storingFilms.findFilm(0), loadedFilms.findFilm(0))
+        assertEquals(storingFilms.findFilm(1), loadedFilms.findFilm(1))
+        assertEquals(storingFilms.findFilm(2), loadedFilms.findFilm(2))
+    }
 }
 
 
