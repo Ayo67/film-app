@@ -73,59 +73,30 @@ class FilmAPI(serializerType: Serializer){
         }
     }
 
-
     fun numberOfArchivedFilms(): Int {
-        //return films.stream().filter { obj: Film -> obj.isFilmArchived }.count().toInt()
-        var counter = 0
-        for (film in films) {
-            if (film.isFilmArchived) {
-                counter++
-            }
-        }
-        return counter
-    }
+        return films.stream().filter { obj: Film -> obj.isFilmArchived }.count().toInt()
 
+    }
     fun numberOfActiveFilms():  Int {
-        //return films.stream().filter { p: Film -> !p.isFilmArchived }.count().toInt()
-        var counter = 0
-        for (film in films) {
-            if (!film.isFilmArchived) {
-                counter++
-            }
-        }
-        return counter
+        return films.stream()
+            .filter{film: Film -> !film.isFilmArchived}
+            .count()
+            .toInt()
+    }
+    fun listFilmsBySelectedRating(rating: Int): String {
+        return films.filter { it.filmRating == rating }
+            .takeIf { it.isNotEmpty() }
+            ?.joinToString(separator = "\n") { "${films.indexOf(it)}: $it" }
+            ?.let { "${numberOfFilmsByRating(rating)} films with rating $rating:\n$it" }
+            ?: "No films with rating $rating found"
     }
 
-    fun listFilmsBySelectedRating(rating: Int): String {
-        return if (films.isEmpty()) {
-            "No films stored"
-        } else {
-            var listOfFilms = ""
-            for (i in films.indices) {
-                if (films[i].filmRating == rating) {
-                    listOfFilms +=
-                        """$i: ${films[i]}
-                        """.trimIndent()
-                }
-            }
-            if (listOfFilms.equals("")) {
-                "No notes with priority: $rating"
-            } else {
-                "${numberOfFilmsByRating(rating)} notes with priority $rating: $listOfFilms"
-            }
-        }
-    }
 
     fun numberOfFilmsByRating(rating: Int): Int {
-        //return films.stream().filter { p: Film -> p.filmRating == rating }.count().toInt()
-        var counter = 0
-        for (film in films) {
-            if (film.filmRating == rating) {
-                counter++
-            }
-        }
-        return counter
+        return films.stream().filter { p: Film -> p.filmRating == rating }.count().toInt()
     }
+
+
 
     fun deleteFilm(indexToDelete: Int): Film? {
         return if (isValidListIndex(indexToDelete, films)) {
@@ -134,18 +105,17 @@ class FilmAPI(serializerType: Serializer){
     }
 
     fun updateFilm(indexToUpdate: Int, film: Film?): Boolean {
-        //find the note object by the index number
+        //find the film object by the index number
         val foundFilm = findFilm(indexToUpdate)
 
-        //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
+        //if the film exists, use the film details passed as parameters to update the found film in the ArrayList.
         if ((foundFilm != null) && (film != null)) {
             foundFilm.filmTitle = film.filmTitle
             foundFilm.filmRating = film.filmRating
             foundFilm.filmGenre = film.filmGenre
             return true
         }
-
-        //if the note was not found, return false, indicating that the update was not successful
+        //if the film was not found, return false, indicating that the update was not successful
         return false
     }
 
