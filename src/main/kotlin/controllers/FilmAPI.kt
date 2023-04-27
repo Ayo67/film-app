@@ -24,17 +24,11 @@ class FilmAPI(serializerType: Serializer){
         return films.add(film)
     }
 
-    fun listAllFilms(): String {
-        return if (films.isEmpty()) {
-            "No films stored"
-        } else {
-            var listOfFilms = ""
-            for (i in films.indices) {
-                listOfFilms += "${i}: ${films[i]} \n"
-            }
-            listOfFilms
-        }
-    }
+     fun listAllFilms(): String =
+        if  (films.isEmpty()) "No films stored"
+        else films.joinToString (separator = "\n") { film ->
+            films.indexOf(film).toString() + ": " + film.toString() }
+
 
     fun numberOfFilms() = films.size
 
@@ -48,28 +42,18 @@ class FilmAPI(serializerType: Serializer){
     fun listActiveFilms(): String {
         return if (numberOfActiveFilms() == 0) {
             "No active films stored"
-        } else {
-            var listOfActiveFilms = ""
-            for (note in films) {
-                if (!note.isFilmArchived) {
-                    listOfActiveFilms += "${films.indexOf(note)}: $note \n"
-                }
-            }
-            listOfActiveFilms
-        }
+        } else
+            films.filterNot { it.isFilmArchived }
+                .mapIndexed { index, note -> "${index}: $note" }
+                .joinToString("\n")
     }
 
+
     fun listArchivedFilms(): String {
-        return if (numberOfArchivedFilms() == 0) {
-            "No archived films stored"
-        } else {
-            var listOfArchivedFilms = ""
-            for (film in films) {
-                if (film.isFilmArchived) {
-                    listOfArchivedFilms += "${films.indexOf(film)}: $film \n"
-                }
-            }
-            listOfArchivedFilms
+        val archivedFilms = films.filter { it.isFilmArchived }
+        return when {
+            archivedFilms.isEmpty() -> "No archived films stored"
+            else -> archivedFilms.joinToString(separator = "\n") { "${films.indexOf(it)}: $it" }
         }
     }
 
@@ -107,7 +91,6 @@ class FilmAPI(serializerType: Serializer){
     fun updateFilm(indexToUpdate: Int, film: Film?): Boolean {
         //find the film object by the index number
         val foundFilm = findFilm(indexToUpdate)
-
         //if the film exists, use the film details passed as parameters to update the found film in the ArrayList.
         if ((foundFilm != null) && (film != null)) {
             foundFilm.filmTitle = film.filmTitle
