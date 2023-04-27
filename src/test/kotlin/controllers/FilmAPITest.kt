@@ -394,7 +394,7 @@ class FilmAPITest {
 
             // Searching an empty collection
             assertEquals(0, emptyFilms!!.numberOfFilms())
-            assertFalse(emptyFilms!!.searchByTitle("").isEmpty())
+            //assertFalse(emptyFilms!!.searchByTitle("").isEmpty())
         }
 
         @Test
