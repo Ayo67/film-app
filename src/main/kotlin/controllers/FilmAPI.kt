@@ -53,15 +53,9 @@ class FilmAPI(serializerType: Serializer){
 
     fun numberOfArchivedFilms(): Int  = films.count{ film: Film-> film.isFilmArchived }
 
+    fun numberOfActiveFilms():  Int = films.count{ film: Film-> film.isFilmArchived }
 
-
-
-    fun numberOfActiveFilms():  Int {
-        return films.stream()
-            .filter{film: Film -> !film.isFilmArchived}
-            .count()
-            .toInt()
-    }
+    fun numberOfFilmsByRating(rating: Int): Int = films.count { p: Film -> p.filmRating == rating }
     fun listFilmsBySelectedRating(rating: Int): String =
         if (films.isEmpty()) "no films stored"
     else{
@@ -69,12 +63,6 @@ class FilmAPI(serializerType: Serializer){
             if(listOfFilms.equals("")) "No films with rating: $rating"
             else "${numberOfFilmsByRating(rating)} films with rating $rating: $listOfFilms"
         }
-
-    fun numberOfFilmsByRating(rating: Int): Int {
-        return films.stream().filter { p: Film -> p.filmRating == rating }.count().toInt()
-    }
-
-
 
     fun deleteFilm(indexToDelete: Int): Film? {
         return if (isValidListIndex(indexToDelete, films)) {
