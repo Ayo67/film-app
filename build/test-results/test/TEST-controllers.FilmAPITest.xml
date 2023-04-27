@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controllers.FilmAPITest" tests="6" skipped="0" failures="0" errors="0" timestamp="2023-04-27T15:58:04" hostname="DESKTOP-BK2M168" time="0.269">
+<testsuite name="controllers.FilmAPITest" tests="6" skipped="0" failures="0" errors="0" timestamp="2023-04-27T17:28:59" hostname="DESKTOP-BK2M168" time="0.303">
   <properties/>
-  <testcase name="saving and loading an loaded collection in JSON doesn't loose data()" classname="controllers.FilmAPITest" time="0.214"/>
-  <testcase name="adding a Film to an empty list adds to ArrayList()" classname="controllers.FilmAPITest" time="0.002"/>
-  <testcase name="adding a Film to a populated list adds to ArrayList()" classname="controllers.FilmAPITest" time="0.001"/>
-  <testcase name="saving and loading an empty collection in CBOR doesn't crash app()" classname="controllers.FilmAPITest" time="0.032"/>
-  <testcase name="saving and loading an loaded collection in CBOR doesn't loose data()" classname="controllers.FilmAPITest" time="0.01"/>
-  <testcase name="saving and loading an empty collection in JSON doesn't crash app()" classname="controllers.FilmAPITest" time="0.006"/>
+  <testcase name="saving and loading an loaded collection in JSON doesn't loose data()" classname="controllers.FilmAPITest" time="0.244"/>
+  <testcase name="adding a Film to an empty list adds to ArrayList()" classname="controllers.FilmAPITest" time="0.001"/>
+  <testcase name="adding a Film to a populated list adds to ArrayList()" classname="controllers.FilmAPITest" time="0.0"/>
+  <testcase name="saving and loading an empty collection in CBOR doesn't crash app()" classname="controllers.FilmAPITest" time="0.027"/>
+  <testcase name="saving and loading an loaded collection in CBOR doesn't loose data()" classname="controllers.FilmAPITest" time="0.014"/>
+  <testcase name="saving and loading an empty collection in JSON doesn't crash app()" classname="controllers.FilmAPITest" time="0.007"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
