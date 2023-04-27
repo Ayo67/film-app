@@ -174,6 +174,15 @@ fun archiveFilm() {
     }
 }
 
+fun listAllFilms() {
+    println(filmAPI.listAllFilms())
+}
+
+fun listArchivedFilms() {
+    println(filmAPI.listArchivedFilms())
+}
+
+
 
 
 
