@@ -25,14 +25,12 @@ class FilmAPI(serializerType: Serializer){
     }
 
     fun listAllFilms(): String {
-        return if (films.isEmpty()) {
-            "No films stored"
+        if (films.isEmpty()) {
+            return "No films stored"
         } else {
-            var listOfFilms = ""
-            for (i in films.indices) {
-                listOfFilms += "${i}: ${films[i]} \n"
+            return films.joinToString{ film ->
+                film.toString()
             }
-            listOfFilms
         }
     }
 
