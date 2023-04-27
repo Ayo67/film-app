@@ -87,9 +87,9 @@ fun listFilms() {
          > ==>> """.trimMargin(">"))
 
         when (option) {
-            1 -> listAllFilms();
-            2 -> listActiveFilms();
-            3 -> listArchivedFilms();
+            1 -> listAllFilms()
+            2 -> listActiveFilms()
+            3 -> listArchivedFilms()
             else -> println("Invalid option entered: " + option);
         }
     } else {
