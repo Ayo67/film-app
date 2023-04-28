@@ -9,7 +9,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-class CBORSerializer(private val file: File) : Serializer{
+class CBORSerializer(private val file: File) : Serializer {
     @OptIn(ExperimentalSerializationApi::class)
     @Throws(Exception::class)
     override fun write(obj: Any?) {
@@ -29,5 +29,4 @@ class CBORSerializer(private val file: File) : Serializer{
         inputStream.close()
         return Cbor.decodeFromByteArray(byteArray)
     }
-
 }

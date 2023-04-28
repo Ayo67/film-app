@@ -2,17 +2,16 @@ package controllers
 
 import models.Film
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import persistence.CBORSerializer
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class FilmAPITest {
 
@@ -26,13 +25,13 @@ class FilmAPITest {
 
     @BeforeEach
     fun setup() {
-        firstFilm = Film(1,"The Shawshank Redemption", 5, "Drama", false)
-        secondFilm = Film(2,"The Godfather", 5, "Drama", false)
-        thirdFilm = Film(3,"The Dark Knight", 4, "Action", false)
-        fourthFilm = Film(4,"Forrest Gump", 4, "Drama", false)
-        fifthFilm = Film(5,"Inception", 3, "Sci-Fi", false)
+        firstFilm = Film(1, "The Shawshank Redemption", 5, "Drama", false)
+        secondFilm = Film(2, "The Godfather", 5, "Drama", false)
+        thirdFilm = Film(3, "The Dark Knight", 4, "Action", false)
+        fourthFilm = Film(4, "Forrest Gump", 4, "Drama", false)
+        fifthFilm = Film(5, "Inception", 3, "Sci-Fi", false)
 
-        //adding 5 Films to the film api
+        // adding 5 Films to the film api
         populatedFilms!!.add(firstFilm!!)
         populatedFilms!!.add(secondFilm!!)
         populatedFilms!!.add(thirdFilm!!)
@@ -53,7 +52,7 @@ class FilmAPITest {
 
     @Test
     fun `adding a Film to a populated list adds to ArrayList`() {
-        val newFilm = Film (0, "red", 5, "work", false)
+        val newFilm = Film(0, "red", 5, "work", false)
         assertEquals(5, populatedFilms!!.numberOfFilms())
         assertTrue(populatedFilms!!.add(newFilm))
         assertEquals(6, populatedFilms!!.numberOfFilms())
@@ -62,7 +61,7 @@ class FilmAPITest {
 
     @Test
     fun `adding a Film to an empty list adds to ArrayList`() {
-        val newFilm = Film(5,  "Inception",5," Sci-Fi",false)
+        val newFilm = Film(5, "Inception", 5, " Sci-Fi", false)
         assertEquals(0, emptyFilms!!.numberOfFilms())
         assertTrue(emptyFilms!!.add(newFilm))
         assertEquals(1, emptyFilms!!.numberOfFilms())
@@ -82,10 +81,10 @@ class FilmAPITest {
             assertEquals(5, populatedFilms!!.numberOfFilms())
             val filmsString = populatedFilms!!.listAllFilms().lowercase()
             assertFalse(filmsString.contains("interstellar"))
-            //assertTrue(filmsString.contains("the matrix"))
-            //assertTrue(filmsString.contains("the dark knight"))
-            //assertTrue(filmsString.contains("inception"))
-            //assertTrue(filmsString.contains("godfather"))
+            // assertTrue(filmsString.contains("the matrix"))
+            // assertTrue(filmsString.contains("the dark knight"))
+            // assertTrue(filmsString.contains("inception"))
+            // assertTrue(filmsString.contains("godfather"))
         }
 
         @Test
@@ -100,10 +99,10 @@ class FilmAPITest {
         fun `listActiveFilms returns active films when ArrayList has active films stored`() {
             assertEquals(0, populatedFilms!!.numberOfActiveFilms())
             val activeFilmsString = populatedFilms!!.listActiveFilms().lowercase()
-            //assertTrue(activeFilmsString.contains("The Godfather"))
+            // assertTrue(activeFilmsString.contains("The Godfather"))
             assertFalse(activeFilmsString.contains("pulp fiction"))
-            //assertTrue(activeFilmsString.contains("The Godfather"))
-            //assertTrue(activeFilmsString.contains("Inception"))
+            // assertTrue(activeFilmsString.contains("The Godfather"))
+            // assertTrue(activeFilmsString.contains("Inception"))
             assertFalse(activeFilmsString.contains("titanic"))
         }
 
@@ -120,10 +119,10 @@ class FilmAPITest {
             assertEquals(0, populatedFilms!!.numberOfArchivedFilms())
             val archivedFilmsString = populatedFilms!!.listArchivedFilms().lowercase()
             assertFalse(archivedFilmsString.contains("the godfather"))
-            //assertTrue(archivedFilmsString.contains("pulp fiction"))
+            // assertTrue(archivedFilmsString.contains("pulp fiction"))
             assertFalse(archivedFilmsString.contains("the shawshank redemption"))
             assertFalse(archivedFilmsString.contains("the dark knight"))
-            //assertTrue(archivedFilmsString.contains("titanic"))
+            // assertTrue(archivedFilmsString.contains("titanic"))
         }
 
         @Test
@@ -136,34 +135,32 @@ class FilmAPITest {
         fun `listFilmsBySelectedRating returns no films when no films of that rating exist`() {
             assertEquals(5, populatedFilms!!.numberOfFilms())
             val rating2String = populatedFilms!!.listFilmsBySelectedRating(2).lowercase()
-            //assertFalse(rating2String.contains("no films"))
-            //assertTrue(rating2String.contains("Steven Spielberg"))
+            // assertFalse(rating2String.contains("no films"))
+            // assertTrue(rating2String.contains("Steven Spielberg"))
         }
 
         @Test
         fun `listFilmsBySelectedRating returns all films that match that rating when films of that rating exist`() {
             assertEquals(5, populatedFilms!!.numberOfFilms())
             val rating1String = populatedFilms!!.listFilmsBySelectedRating(1).lowercase()
-            //assertTrue(rating1String.contains("1 film"))
-            //assertTrue(rating1String.contains("quentin tarantino"))
-            //assertTrue(rating1String.contains("Inception"))
+            // assertTrue(rating1String.contains("1 film"))
+            // assertTrue(rating1String.contains("quentin tarantino"))
+            // assertTrue(rating1String.contains("Inception"))
             assertFalse(rating1String.contains("Inception"))
             assertFalse(rating1String.contains("Inception"))
             assertFalse(rating1String.contains("Inception"))
             assertFalse(rating1String.contains("Inception"))
 
             val rating4String = populatedFilms!!.listFilmsBySelectedRating(4).lowercase()
-            //assertTrue(rating4String.contains("1 film"))
-            //assertTrue(rating4String.contains("Inception"))
+            // assertTrue(rating4String.contains("1 film"))
+            // assertTrue(rating4String.contains("Inception"))
             assertFalse(rating4String.contains("Inception"))
-            //assertTrue(rating4String.contains("Inception"))
-            //assertTrue(rating4String.contains("Inception"))
+            // assertTrue(rating4String.contains("Inception"))
+            // assertTrue(rating4String.contains("Inception"))
             assertFalse(rating4String.contains("Inception"))
             assertFalse(rating4String.contains("Inception"))
-
         }
     }
-
 
     @Nested
     inner class DeleteFilms {
@@ -172,15 +169,15 @@ class FilmAPITest {
         fun `deleting a Note that does not exist, returns null`() {
             assertNull(emptyFilms!!.deleteFilm(0))
             assertNull(populatedFilms!!.deleteFilm(-1))
-            //assertNull(populatedFilms!!.deleteFilm(5))
+            // assertNull(populatedFilms!!.deleteFilm(5))
         }
 
         @Test
         fun `deleting a note that exists delete and returns deleted object`() {
             assertEquals(5, populatedFilms!!.numberOfFilms())
-            //assertEquals(Inception, populatedFilms!!.deleteFilm(4))
+            // assertEquals(Inception, populatedFilms!!.deleteFilm(4))
             assertEquals(5, populatedFilms!!.numberOfFilms())
-            //assertEquals(learnKotlin, populatedFilms!!.deleteFilm(0))
+            // assertEquals(learnKotlin, populatedFilms!!.deleteFilm(0))
             assertEquals(5, populatedFilms!!.numberOfFilms())
         }
     }
@@ -190,20 +187,20 @@ class FilmAPITest {
         @Test
         fun `updating a film that does not exist returns false`() {
             assertTrue(populatedFilms!!.updateFilm(1, Film(1, "Inception", 5, "work", false)))
-            //assertFalse(populatedFilms!!.updateFilm(0, Film(1, "red", 5, "work", false)))
-            //assertFalse(emptyFilms!!.updateFilm(0, Film(1, "red", 5, "work", false)))
+            // assertFalse(populatedFilms!!.updateFilm(0, Film(1, "red", 5, "work", false)))
+            // assertFalse(emptyFilms!!.updateFilm(0, Film(1, "red", 5, "work", false)))
         }
 
         @Test
         fun `updating a note that exists returns true and updates`() {
-            //check film 5 exists and check the contents
-            //assertEquals(swim, populatedFilms!!.findNote(4))
+            // check film 5 exists and check the contents
+            // assertEquals(swim, populatedFilms!!.findNote(4))
             assertEquals("Inception", populatedFilms!!.findFilm(4)!!.filmTitle)
             assertEquals(3, populatedFilms!!.findFilm(4)!!.filmRating)
             assertEquals("Sci-Fi", populatedFilms!!.findFilm(4)!!.filmGenre)
 
-            //update note 5 with new information and ensure contents updated successfully
-            assertTrue(populatedFilms!!.updateFilm(4, Film(1, "Inception", 5,"Sci-Fi", false)))
+            // update note 5 with new information and ensure contents updated successfully
+            assertTrue(populatedFilms!!.updateFilm(4, Film(1, "Inception", 5, "Sci-Fi", false)))
             assertEquals("Inception", populatedFilms!!.findFilm(4)!!.filmTitle)
             assertEquals(5, populatedFilms!!.findFilm(4)!!.filmRating)
             assertEquals("Sci-Fi", populatedFilms!!.findFilm(4)!!.filmGenre)
@@ -219,11 +216,11 @@ class FilmAPITest {
             val storingFilms = FilmAPI(XMLSerializer(File("films.xml")))
             storingFilms.store()
 
-            //Loading the empty notes.xml file into a new object
+            // Loading the empty notes.xml file into a new object
             val loadedFilms = FilmAPI(XMLSerializer(File("films.xml")))
             loadedFilms.load()
 
-            //Comparing the source of the notes (storingNotes) with the XML loaded notes (loadedNotes)
+            // Comparing the source of the notes (storingNotes) with the XML loaded notes (loadedNotes)
             assertEquals(0, storingFilms.numberOfFilms())
             assertEquals(0, loadedFilms.numberOfFilms())
             assertEquals(storingFilms.numberOfFilms(), loadedFilms.numberOfFilms())
@@ -238,11 +235,11 @@ class FilmAPITest {
             storingFilms.add(thirdFilm!!)
             storingFilms.store()
 
-            //Loading films.xml into a different collection
+            // Loading films.xml into a different collection
             val loadedFilms = FilmAPI(XMLSerializer(File("films.xml")))
             loadedFilms.load()
 
-            //Comparing the source of the films (storingFilms) with the XML loaded films (loadedFilms)
+            // Comparing the source of the films (storingFilms) with the XML loaded films (loadedFilms)
             assertEquals(3, storingFilms.numberOfFilms())
             assertEquals(3, loadedFilms.numberOfFilms())
             assertEquals(storingFilms.numberOfFilms(), loadedFilms.numberOfFilms())
@@ -258,11 +255,11 @@ class FilmAPITest {
         val storingFilms = FilmAPI(JSONSerializer(File("films.json")))
         storingFilms.store()
 
-        //Loading the empty films.json file into a new object
+        // Loading the empty films.json file into a new object
         val loadedFilms = FilmAPI(JSONSerializer(File("films.json")))
         loadedFilms.load()
 
-        //Comparing the source of the films (storingFilms) with the json loaded films (loadedFilms)
+        // Comparing the source of the films (storingFilms) with the json loaded films (loadedFilms)
         assertEquals(0, storingFilms.numberOfFilms())
         assertEquals(0, loadedFilms.numberOfFilms())
         assertEquals(storingFilms.numberOfFilms(), loadedFilms.numberOfFilms())
@@ -277,11 +274,11 @@ class FilmAPITest {
         storingFilms.add(thirdFilm!!)
         storingFilms.store()
 
-        //Loading films.json into a different collection
+        // Loading films.json into a different collection
         val loadedFilms = FilmAPI(JSONSerializer(File("films.json")))
         loadedFilms.load()
 
-        //Comparing the source of the films (storingFilms) with the json loaded films (loadedFilms)
+        // Comparing the source of the films (storingFilms) with the json loaded films (loadedFilms)
         assertEquals(3, storingFilms.numberOfFilms())
         assertEquals(3, loadedFilms.numberOfFilms())
         assertEquals(storingFilms.numberOfFilms(), loadedFilms.numberOfFilms())
@@ -340,7 +337,7 @@ class FilmAPITest {
         @Test
         fun `archiving an already archived film returns false`() {
             assertFalse(populatedFilms!!.findFilm(2)!!.isFilmArchived)
-            //assertFalse(populatedFilms!!.archiveFilm(2))
+            // assertFalse(populatedFilms!!.archiveFilm(2))
         }
 
         @Test
@@ -390,11 +387,11 @@ class FilmAPITest {
             // Searching a populated collection for a title that doesn't exist.
             assertEquals(5, populatedFilms!!.numberOfFilms())
             val searchResults = populatedFilms!!.searchByTitle("no results expected")
-            //assertTrue(searchResults.isEmpty())
+            // assertTrue(searchResults.isEmpty())
 
             // Searching an empty collection
             assertEquals(0, emptyFilms!!.numberOfFilms())
-            //assertFalse(emptyFilms!!.searchByTitle("").isEmpty())
+            // assertFalse(emptyFilms!!.searchByTitle("").isEmpty())
         }
 
         @Test
@@ -420,12 +417,3 @@ class FilmAPITest {
         }
     }
 }
-
-
-
-
-
-
-
-
-
