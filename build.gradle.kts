@@ -4,6 +4,8 @@ plugins {
     kotlin("jvm") version "1.7.10"
     application
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20-RC"
+    // Plugin for Dokka - KDoc generating tool
+    id("org.jetbrains.dokka") version "1.6.10"
 }
 
 group = "ie.setu"
@@ -24,6 +26,9 @@ dependencies {
     implementation("org.codehaus.jettison:jettison:1.4.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.0")
+
+    // For generating a Dokka Site from KDoc
+    implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
 }
 
 tasks.test {
