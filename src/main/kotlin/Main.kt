@@ -39,7 +39,8 @@ fun mainMenu(): Int {
          > |   8) Update actor details on a film  |
          > |   9) Delete actor from a film        |
          > |   10) Mark Actor Status              | 
-         > |   11) Search Actor by name           | 
+         > |   11) Search Actor by name           |
+         > ----------------------------------------
          > |   20) Save Film                      |
          > |   21) Load Film                      |
          > |   0) Exit                            |
