@@ -1,1 +1,1 @@
-{"object-stream":{"list":[{"models.Film":{"filmId":0,"filmTitle":"ee","filmRating":3,"filmGenre":"ee","isFilmArchived":false,"actors":[{"@class":"linked-hash-set"}],"lastActorId":0}}]}}
+{"object-stream":{"list":[""]}}

@@ -62,7 +62,7 @@ data class Film(var filmId: Int = 0,
         fun checkFilmCompletionStatus(): Boolean {
             if (actors.isNotEmpty()) {
                 for (actor in actors) {
-                    if (!actor.isActorComplete) {
+                    if (!actor.actorStatus) {
                         return false
                     }
                 }

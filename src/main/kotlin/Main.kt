@@ -6,6 +6,7 @@ import persistence.CBORSerializer
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import utils.ScannerInput
+import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextDouble
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
@@ -14,8 +15,8 @@ import java.lang.System.exit
 
 
 private val logger = KotlinLogging.logger {}
-//private val filmAPI = FilmAPI(XMLSerializer(File("films.xml")))
-private val filmAPI = FilmAPI(JSONSerializer(File("films.json")))
+private val filmAPI = FilmAPI(XMLSerializer(File("films.xml")))
+//private val filmAPI = FilmAPI(JSONSerializer(File("films.json")))
 //private val filmAPI = FilmAPI(CBORSerializer(File("films.cbor")))
 
 
@@ -40,7 +41,8 @@ fun mainMenu() : Int {
          > |   7) Add Actor to a film             |
          > |   8) Update actor details on a film  |
          > |   9) Delete actor from a film        |
-         > |   10) Mark item as complete/todo     | 
+         > |   10) Mark Actor Status              | 
+         > |   11) Search Actor by name           | 
          > |   20) Save Film                      |
          > |   21) Load Film                      |
          > |   0) Exit                            |
@@ -62,6 +64,10 @@ fun runMenu() {
             5 -> archiveFilm()
             6 -> searchByTitle()
             7 -> addActorToFilm()
+            8 -> updateActorsDetailsInFilm()
+            9 -> deleteAnActor()
+            10 -> markFilmStatus()
+            11 -> searchActorByName()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -203,29 +209,12 @@ fun searchByTitle() {
 fun askUserToChooseActiveFilm(): Film? {
     listFilms()
     if (filmAPI.numberOfFilms() > 0) {
-        val indexToSee = readNextInt("Enter the Index of the film you wish to see")
+        val indexToSee = readNextInt("Enter the Index of the film you wish to see:")
         if(filmAPI.isValidIndex(indexToSee)){
             return filmAPI.findFilm(indexToSee)
         }
     }
     return null
-}
-private fun addActorToFilm() {
-    val film: Film? = askUserToChooseActiveFilm()
-    film?.let {
-        val added = it.addActor(
-            Actor(
-                actorId = readNextInt("\t Actor ID: "),
-                name = readNextLine("\t Actor Name: "),
-                age = readNextInt("\t Actor Age: "),
-                experience = readNextInt("\t Actor Experience: "),
-                gender = readNextLine("\t Actor Gender: "),
-                nationality = readNextLine("\t Actor Nationality: "),
-                salary = readNextDouble("\t Actor Salary: ")
-            )
-        )
-        println(if (added) "Add Actor Successful!" else "Add NOT Successful")
-    }
 }
 
 fun updateActorsDetailsInFilm() {
@@ -233,7 +222,6 @@ fun updateActorsDetailsInFilm() {
     if (film != null) {
         val actor: Actor? = askUserToChooseActor(film)
         if (actor != null) {
-            val newActorId = readNextLine("Enter new Actor: ")
             val newName = readNextLine("\t Enter new Actor Name: ")
             val newAge = readNextInt("\t  Enter new Actor Age: ")
             val newExperience = readNextInt("\t Enter new Actor Experience: ")
@@ -259,6 +247,70 @@ fun updateActorsDetailsInFilm() {
     }
 }
 
+
+
+fun deleteAnActor() {
+    val film: Film? = askUserToChooseActiveFilm()
+    if (film != null) {
+        val actor: Actor? = askUserToChooseActor(film)
+        if (actor != null) {
+            val isDeleted = film.delete(actor.actorId)
+            if (isDeleted) {
+                println("Delete Successful!")
+            } else {
+                println("Delete NOT Successful")
+            }
+        }
+    }
+}
+
+fun markFilmStatus() {
+    val film: Film? = askUserToChooseActiveFilm()
+    if (film != null) {
+        val actor: Actor? = askUserToChooseActor(film)
+        if (actor != null) {
+            var changeStatus = 'X'
+            if (actor.actorStatus) {
+                changeStatus = readNextChar("The actor is currently Online...do you want to mark them as Offline?")
+                if ((changeStatus == 'Y') ||  (changeStatus == 'y'))
+                    actor.actorStatus = false
+            }
+            else {
+                changeStatus = readNextChar("The actor is currently Offline...do you want to mark them as Online?")
+                if ((changeStatus == 'Y') ||  (changeStatus == 'y'))
+                    actor.actorStatus = true
+            }
+        }
+    }
+}
+
+
+// ************************* ACTORS REPORTS MENU *******************
+fun searchActorByName() {
+    val searchActor = readNextLine("Enter the Actor name to search by: ")
+    val searchResults = filmAPI.searchActorByName(searchActor)
+    if (searchResults.isEmpty()) {
+        println("No items found")
+    } else {
+        println(searchResults)
+    }
+}
+
+
+
+
+
+
+
+
+fun exitApp(){
+    println("Exiting...bye")
+    exit(0)
+}
+
+
+// ******************** HElPER FUNCTIONS ***********************
+
 private fun askUserToChooseActor(film: Film): Actor? {
     if (film.numberOfActors() > 0) {
         print(film.listActors())
@@ -270,13 +322,20 @@ private fun askUserToChooseActor(film: Film): Actor? {
     }
 }
 
-
-
-
-
-
-
-fun exitApp(){
-    println("Exiting...bye")
-    exit(0)
+private fun addActorToFilm() {
+    val film: Film? = askUserToChooseActiveFilm()
+    film?.let {
+        val added = it.addActor(
+            Actor(
+                actorId = readNextInt("\t Actor ID: "),
+                name = readNextLine("\t Actor Name: "),
+                age = readNextInt("\t Actor Age: "),
+                experience = readNextInt("\t Actor Experience: "),
+                gender = readNextLine("\t Actor Gender: "),
+                nationality = readNextLine("\t Actor Nationality: "),
+                salary = readNextDouble("\t Actor Salary: ")
+            )
+        )
+        println(if (added) "Add Actor Successful!" else "Add NOT Successful")
+    }
 }

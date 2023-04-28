@@ -3,15 +3,16 @@ package controllers
 import models.Film
 import persistence.Serializer
 
-class FilmAPI(serializerType: Serializer){
+class FilmAPI(serializerType: Serializer) {
 
     private var serializer: Serializer = serializerType
     private var films = ArrayList<Film>()
 
-    private fun formatListString(notesToFormat : List<Film>) : String =
+    private fun formatListString(notesToFormat: List<Film>): String =
         notesToFormat
-            .joinToString (separator = "\n") { film ->
-                films.indexOf(film).toString() + ": " + film.toString() }
+            .joinToString(separator = "\n") { film ->
+                films.indexOf(film).toString() + ": " + film.toString()
+            }
 
 
     @Throws(Exception::class)
@@ -28,8 +29,8 @@ class FilmAPI(serializerType: Serializer){
         return films.add(film)
     }
 
-     fun listAllFilms(): String =
-        if  (films.isEmpty()) "No films stored"
+    fun listAllFilms(): String =
+        if (films.isEmpty()) "No films stored"
         else formatListString(films)
 
     fun numberOfFilms() = films.size
@@ -42,25 +43,25 @@ class FilmAPI(serializerType: Serializer){
 
     // utility method to determine if an index is valid in a list.
     fun listActiveFilms(): String =
-        if (numberOfActiveFilms() ==0) "No active films stored"
-    else formatListString(films.filter { film -> !film.isFilmArchived })
-
-
-    fun listArchivedFilms(): String =
-        if (numberOfArchivedFilms() ==0) "No archived films stored"
+        if (numberOfActiveFilms() == 0) "No active films stored"
         else formatListString(films.filter { film -> !film.isFilmArchived })
 
 
-    fun numberOfArchivedFilms(): Int  = films.count{ film: Film-> film.isFilmArchived }
+    fun listArchivedFilms(): String =
+        if (numberOfArchivedFilms() == 0) "No archived films stored"
+        else formatListString(films.filter { film -> !film.isFilmArchived })
 
-    fun numberOfActiveFilms():  Int = films.count{ film: Film-> film.isFilmArchived }
+
+    fun numberOfArchivedFilms(): Int = films.count { film: Film -> film.isFilmArchived }
+
+    fun numberOfActiveFilms(): Int = films.count { film: Film -> film.isFilmArchived }
 
     fun numberOfFilmsByRating(rating: Int): Int = films.count { p: Film -> p.filmRating == rating }
     fun listFilmsBySelectedRating(rating: Int): String =
         if (films.isEmpty()) "no films stored"
-    else{
-        val listOfFilms = formatListString(films.filter { film -> film.filmRating == rating })
-            if(listOfFilms.equals("")) "No films with rating: $rating"
+        else {
+            val listOfFilms = formatListString(films.filter { film -> film.filmRating == rating })
+            if (listOfFilms.equals("")) "No films with rating: $rating"
             else "${numberOfFilmsByRating(rating)} films with rating $rating: $listOfFilms"
         }
 
@@ -84,7 +85,7 @@ class FilmAPI(serializerType: Serializer){
         return false
     }
 
-    fun isValidIndex(index: Int) :Boolean{
+    fun isValidIndex(index: Int): Boolean {
         return isValidListIndex(index, films);
     }
 
@@ -103,10 +104,30 @@ class FilmAPI(serializerType: Serializer){
         return false
     }
 
-    fun searchByTitle(searchString:String) =
+    fun searchByTitle(searchString: String) =
         formatListString(
             films.filter { film -> film.filmTitle.contains(searchString, ignoreCase = true) }
         )
 
+    //******************************** ACTORS ******************
+
+
+    fun searchActorByName(searchString: String): String {
+        return if (numberOfFilms() == 0) "No notes stored"
+        else {
+            var listOfFilms = ""
+            for (film in films) {
+                for (actor in film.actors) {
+                    if (actor.name.contains(searchString, ignoreCase = true)) {
+                        listOfFilms += "${film.filmId}: ${film.filmTitle} \n\t${actor}\n"
+                    }
+                }
+            }
+            if (listOfFilms == "") "No items found for: $searchString"
+            else listOfFilms
+        }
+    }
+
 }
+
 

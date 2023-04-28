@@ -1,22 +1,31 @@
 <object-stream>
   <list>
     <models.Film>
+      <filmId>1</filmId>
       <filmTitle>The Shawshank Redemption</filmTitle>
       <filmRating>5</filmRating>
       <filmGenre>Drama</filmGenre>
       <isFilmArchived>false</isFilmArchived>
+      <actors class="linked-hash-set"/>
+      <lastActorId>0</lastActorId>
     </models.Film>
     <models.Film>
+      <filmId>2</filmId>
       <filmTitle>The Godfather</filmTitle>
       <filmRating>5</filmRating>
       <filmGenre>Drama</filmGenre>
       <isFilmArchived>false</isFilmArchived>
+      <actors class="linked-hash-set"/>
+      <lastActorId>0</lastActorId>
     </models.Film>
     <models.Film>
+      <filmId>3</filmId>
       <filmTitle>The Dark Knight</filmTitle>
       <filmRating>4</filmRating>
       <filmGenre>Action</filmGenre>
       <isFilmArchived>false</isFilmArchived>
+      <actors class="linked-hash-set"/>
+      <lastActorId>0</lastActorId>
     </models.Film>
   </list>
 </object-stream>

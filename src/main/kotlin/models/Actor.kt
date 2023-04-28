@@ -9,12 +9,16 @@ data class Actor(
     var salary: Double?,
     var gender: String,
     var experience: Int,
-    var isActorComplete: Boolean = false
+    var actorStatus: Boolean = false
     )
     {
 
 
-
+        override fun toString() =
+            if (actorStatus)
+                "$actorId: $actorStatus (Complete)"
+            else
+                "$actorId: $actorStatus (TODO)"
 
 
 
