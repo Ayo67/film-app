@@ -1,17 +1,20 @@
 package controllers
-
-import models.Film
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
-import persistence.JSONSerializer
-import persistence.XMLSerializer
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import models.Film
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import persistence.CBORSerializer
+import persistence.JSONSerializer
+import persistence.XMLSerializer
+
+
 
 class FilmAPITest {
 
