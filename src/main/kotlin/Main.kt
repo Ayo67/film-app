@@ -62,7 +62,7 @@ fun runMenu() {
             7 -> addActorToFilm()
             8 -> updateActorsDetailsInFilm()
             9 -> deleteAnActor()
-            10 -> markFilmStatus()
+            10 -> markActorStatus()
             11 -> searchActorByName()
             20 -> save()
             21 -> load()
@@ -119,7 +119,6 @@ fun updateFilm() {
             val filmTitle = readNextLine("Enter a title for the film: ")
             val filmRating = readNextInt("Enter a Rating (1-low, 2, 3, 4, 5-high): ")
             val filmGenre = readNextLine("Enter a genre for the film: ")
-
             // pass the index of the film and the new film details to FilmAPI for updating and check for success.
             if (filmAPI.updateFilm(indexToUpdate, Film(filmId = 0, filmTitle, filmRating, filmGenre, false))) {
                 println("Update Successful")
@@ -232,19 +231,18 @@ fun updateActorsDetailsInFilm() {
                             gender = newGender,
                             nationality = newNationality,
                             salary = newSalary,
-                        )
-                )
-            ) {
+                        ))) {
                 println("Actor details updated")
             } else {
                 println("Actor details NOT updated")
             }
         } else {
             println("Invalid Item Id")
-        }
-    }
-}
+        } } }
 
+
+//it asks the user to choose an actor from the selected film. If a valid actor is chosen, the
+// function attempts to delete the actor from the film using the delete method provided by the Film class
 fun deleteAnActor() {
     val film: Film? = askUserToChooseActiveFilm()
     if (film != null) {
@@ -255,12 +253,11 @@ fun deleteAnActor() {
                 println("Delete Successful!")
             } else {
                 println("Delete NOT Successful")
-            }
-        }
-    }
-}
+            } } } }
 
-fun markFilmStatus() {
+// This functions asks the user to choose a film from the lists, once the film is selected,asks the user
+// to select the actor from selections that appear
+fun markActorStatus() {
     val film: Film? = askUserToChooseActiveFilm()
     if (film != null) {
         val actor: Actor? = askUserToChooseActor(film)
@@ -280,6 +277,9 @@ fun markFilmStatus() {
 }
 
 // ************************* ACTORS REPORTS MENU *******************
+
+// this  searches the for actors in Filmapi,then it calls the searchactorbyname function of filmapi
+//passing what is entered as a query
 fun searchActorByName() {
     val searchActor = readNextLine("Enter the Actor name to search by: ")
     val searchResults = filmAPI.searchActorByName(searchActor)
@@ -289,8 +289,6 @@ fun searchActorByName() {
         println(searchResults)
     }
 }
-
-
 
 
 fun exitApp() {

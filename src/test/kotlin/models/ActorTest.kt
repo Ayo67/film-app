@@ -147,7 +147,7 @@ class ActorTest {
     }
 
     @Test
-    fun `markFilmStatus should return false if any actor has not completed their role`() {
+    fun `markActorStatus should return false if any actor has not completed their role`() {
         val film = Film(1, "Inception", 1, "Action", false)
         val actor1 = Actor(
             1, "Chris Evans", 43, "American",
@@ -161,11 +161,11 @@ class ActorTest {
         film.addActor(actor2)
         actor1.actorStatus = true
         actor2.actorStatus = false
-        assertFalse(film.markFilmStatus())
+        assertFalse(film.markActorStatus())
     }
 
     @Test
-    fun `markFilmStatus should return true if all actors have completed their roles`() {
+    fun `markActorStatus should return true if all actors have completed their roles`() {
         val film = Film(1, "Inception", 1, "Action", false)
         val actor1 = Actor(
             1, "Chris Evans", 43, "American",
@@ -179,13 +179,13 @@ class ActorTest {
         film.addActor(actor2)
         actor1.actorStatus = true
         actor2.actorStatus = true
-        assertTrue(film.markFilmStatus())
+        assertTrue(film.markActorStatus())
     }
 
     @Test
     fun `markFilmStatus should return true if there are no actors in the film`() {
         val film = Film(1, "Inception", 1, "Action", false)
-        assertTrue(film.markFilmStatus())
+        assertTrue(film.markActorStatus())
     }
 
 

@@ -33,7 +33,6 @@ data class Film(
 
     fun update(id: Int, newActor: Actor): Boolean {
         val foundActor = findOne(id)
-
         // if the object exists, use the details passed in the newActor parameter to
         // update the found object in the Set
         if (foundActor != null) {
@@ -59,16 +58,20 @@ data class Film(
         return "$filmId: $filmTitle, Rating($filmRating), Genre($filmGenre), Archived($archived) \n${listActors()}"
     }
 
-    fun markFilmStatus(): Boolean {
+    fun markActorStatus(): Boolean {
+        // Check if the list of actors is not empty
         if (actors.isNotEmpty()) {
+            // Iterate through each actor in the list
             for (actor in actors) {
+                // Check if the actor's status is false
                 if (!actor.actorStatus) {
+                    // If the actor's status is false, return false immediately
                     return false
-                }
-            }
-        }
-        return true // a film with empty actors can be archived, or all actors are complete
+                } } }
+        // If all actors in the list have their status set to true, return true
+        return true
     }
+
 
 
 
