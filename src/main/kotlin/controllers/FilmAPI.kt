@@ -106,7 +106,7 @@ class FilmAPI(serializerType: Serializer) {
             films.filter { film -> film.filmTitle.contains(searchString, ignoreCase = true) }
         )
 
-    // ******************************** ACTORS ******************
+    // ******************************** ACTORS ************************
 
     fun searchActorByName(searchString: String): String {
         return if (numberOfFilms() == 0) "No notes stored"

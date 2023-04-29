@@ -59,7 +59,7 @@ data class Film(
         return "$filmId: $filmTitle, Rating($filmRating), Genre($filmGenre), Archived($archived) \n${listActors()}"
     }
 
-    fun checkFilmCompletionStatus(): Boolean {
+    fun markFilmStatus(): Boolean {
         if (actors.isNotEmpty()) {
             for (actor in actors) {
                 if (!actor.actorStatus) {
