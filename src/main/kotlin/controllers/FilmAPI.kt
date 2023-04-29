@@ -1,5 +1,6 @@
 package controllers
 
+import models.Actor
 import models.Film
 import persistence.Serializer
 
@@ -109,18 +110,12 @@ class FilmAPI(serializerType: Serializer) {
     // ******************************** ACTORS ************************
 
     fun searchActorByName(searchString: String): String {
-        return if (numberOfFilms() == 0) "No notes stored"
-        else {
-            var listOfFilms = ""
-            for (film in films) {
-                for (actor in film.actors) {
-                    if (actor.name.contains(searchString, ignoreCase = true)) {
-                        listOfFilms += "${film.filmId}: ${film.filmTitle} \n\t${actor}\n"
-                    }
-                }
-            }
-            if (listOfFilms == "") "No items found for: $searchString"
-            else listOfFilms
+        val filteredFilms = films.flatMap { film ->
+            film.actors.filter { it.name.contains(searchString, ignoreCase = true) }
+                .map { actor -> "${film.filmId}: ${film.filmTitle} \n\t$actor\n" }
         }
+        return if (filteredFilms.isEmpty()) "No items found for: $searchString"
+        else filteredFilms.joinToString("")
     }
+
 }
