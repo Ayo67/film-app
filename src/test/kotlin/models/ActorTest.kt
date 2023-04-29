@@ -70,11 +70,7 @@ class ActorTest {
             film.addActor(actor2)
 
             val actors = film.listActors()
-
-
             assertEquals(2, film.numberOfActors())
-            //assertTrue(actors.contains(actor1))
-            //assertTrue(actors.contains(actor2))
         }
     }
 
@@ -106,7 +102,6 @@ class ActorTest {
             film.addActor(actor3)
             val actor = film.findOne(0)
             assertNotNull(actor)
-           // assertEquals(actor1, actor)
         }
 
     @Test
@@ -122,15 +117,78 @@ class ActorTest {
         )
         film.addActor(actor1)
         film.addActor(actor2)
-
         assertTrue(film.delete(1))
-        //assertFalse(film.actors.contains(actor1))
-
-        //assertTrue(film.delete(2))
         assertFalse(film.actors.contains(actor2))
-
         assertFalse(film.delete(3)) // Should return false if actor with ID 3 is not in the list
     }
+
+    @Test
+    fun `test update updates an actor in the film`() {
+        val film = Film(1,"Inception",1,"Action",false)
+        val actor1 = Actor(
+            1, "Chris Evans", 43, "American",
+            50.00, "M", 5
+        )
+        val actor2 = Actor(
+            2, "Robert Downey Jr.", 56, "American",
+            75.00, "M", 9
+        )
+        film.addActor(actor1)
+        film.addActor(actor2)
+
+        // create a new actor with updated details
+        val updatedActor = Actor(
+            2, "Robert Downey Jr.", 56, "American",
+            100.00, "M", 11
+        )
+
+        val foundActor = film.findOne(2)
+
+    }
+
+    @Test
+    fun `markFilmStatus should return false if any actor has not completed their role`() {
+        val film = Film(1, "Inception", 1, "Action", false)
+        val actor1 = Actor(
+            1, "Chris Evans", 43, "American",
+            50.00, "M", 5
+        )
+        val actor2 = Actor(
+            2, "Robert Downey Jr.", 56, "American",
+            75.00, "M", 9
+        )
+        film.addActor(actor1)
+        film.addActor(actor2)
+        actor1.actorStatus = true
+        actor2.actorStatus = false
+        assertFalse(film.markFilmStatus())
+    }
+
+    @Test
+    fun `markFilmStatus should return true if all actors have completed their roles`() {
+        val film = Film(1, "Inception", 1, "Action", false)
+        val actor1 = Actor(
+            1, "Chris Evans", 43, "American",
+            50.00, "M", 5
+        )
+        val actor2 = Actor(
+            2, "Robert Downey Jr.", 56, "American",
+            75.00, "M", 9
+        )
+        film.addActor(actor1)
+        film.addActor(actor2)
+        actor1.actorStatus = true
+        actor2.actorStatus = true
+        assertTrue(film.markFilmStatus())
+    }
+
+    @Test
+    fun `markFilmStatus should return true if there are no actors in the film`() {
+        val film = Film(1, "Inception", 1, "Action", false)
+        assertTrue(film.markFilmStatus())
+    }
+
+
 
 
 
